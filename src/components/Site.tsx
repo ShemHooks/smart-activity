@@ -521,26 +521,31 @@ export default function Site() {
               </h2>
               <p>{t.partnersBody}</p>
             </div>
-            <div className="partner-grid">
-              {partnerOrganizations.map((partner, i) => (
-                <div
-                  className="partner-card reveal"
-                  key={partner.name}
-                  style={{ "--partner-index": i % 5 } as React.CSSProperties}
-                >
-                  <div className="partner-image-wrap">
-                    <Image
-                      src={partner.logo}
-                      alt={`${partner.name} logo`}
-                      width={200}
-                      height={160}
-                      className="partner-image"
-                      sizes="(max-width: 520px) 45vw, (max-width: 900px) 30vw, 18vw"
-                    />
-                  </div>
-                  <span className="partner-name">{partner.name}</span>
-                </div>
-              ))}
+
+            <div className="partner-marquee">
+              <div className="partner-track">
+                {[...partnerOrganizations, ...partnerOrganizations].map(
+                  (partner, i) => (
+                    <div
+                      className="partner-card"
+                      key={`${partner.name}-${i}`}
+                      aria-hidden={i >= partnerOrganizations.length}
+                    >
+                      <div className="partner-image-wrap">
+                        <Image
+                          src={partner.logo}
+                          alt={partner.name}
+                          width={200}
+                          height={160}
+                          className="partner-image"
+                          sizes="200px"
+                        />
+                      </div>
+                      <span className="partner-name">{partner.name}</span>
+                    </div>
+                  ),
+                )}
+              </div>
             </div>
           </div>
         </section>
@@ -652,35 +657,6 @@ export default function Site() {
           </div>
         </section>
       </main>
-      <footer className="footer">
-        <div className="container">
-          <div className="footer-main">
-            <div>
-              <div className="footer-brand">
-                SMART <em>ACTIVITY</em>
-              </div>
-              <Image
-                className="official-logo"
-                src="/images/smart-activity-logo-transparent.png"
-                alt="Official Smart Activity company logo"
-                width={180}
-                height={180}
-              />
-              <p>{t.footer}</p>
-            </div>
-            <a href="#home" className="back-top">
-              {t.backTop}
-              <ArrowUpRight size={18} />
-            </a>
-          </div>
-          <div className="footer-bottom">
-            <span>
-              © {new Date().getFullYear()} SMART ACTIVITY. {t.rights}
-            </span>
-            <span>SA / MOVING BUSINESS FORWARD</span>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

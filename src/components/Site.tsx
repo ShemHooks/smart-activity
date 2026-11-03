@@ -444,30 +444,30 @@ export default function Site() {
               </h2>
               <p>{t.sectorsIntro}</p>
             </div>
-            <div className="sector-grid">
+            <div className="industries-constellation">
               {t.sectors.map((name, i) => {
                 const Icon = sectorIcons[i];
 
                 return (
-                  <div className="sector-card reveal" key={i}>
+                  <div className="industry-floating-card" key={i}>
                     <Image
                       src={sectorImages[i]}
                       alt=""
                       fill
-                      sizes="(max-width: 520px) 50vw, (max-width: 800px) 33vw, 25vw"
-                      className="sector-photo"
+                      sizes="(max-width: 600px) 45vw, (max-width: 1000px) 30vw, 22vw"
+                      className="industry-floating-photo"
                     />
 
-                    <div className="sector-overlay" />
+                    <div className="industry-floating-overlay" />
 
-                    <div className="sector-content">
-                      <Icon size={28} strokeWidth={1.6} />
-                      <span className="sector-name">{name}</span>
+                    <div className="industry-floating-content">
+                      <div className="industry-floating-top">
+                        <Icon size={27} strokeWidth={1.6} />
+                        <span>{String(i + 1).padStart(2, "0")}</span>
+                      </div>
+
+                      <h3>{name}</h3>
                     </div>
-
-                    <span className="sector-index">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
                   </div>
                 );
               })}

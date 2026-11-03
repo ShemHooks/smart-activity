@@ -68,10 +68,26 @@ const serviceVideos = [
   "/videos/services/financial-consulting.mp4",
 ];
 
+const sectorImages = [
+  "/images/industries/government.jpg",
+  "/images/industries/healthcare.jpg",
+  "/images/industries/telecommunications.jpg",
+  "/images/industries/contracting.jpg",
+  "/images/industries/universities.jpg",
+  "/images/industries/factories.jpg",
+  "/images/industries/restaurants.jpg",
+  "/images/industries/hotels.jpg",
+  "/images/industries/real-estate.jpg",
+  "/images/industries/shopping-malls.jpg",
+  "/images/industries/airports.jpg",
+  "/images/industries/schools.jpg",
+];
+
 export default function Site() {
   const [locale, setLocale] = useState<Locale>("en");
   const [menuOpen, setMenuOpen] = useState(false);
   const [service, setService] = useState(0);
+  const [valuesExpanded, setValuesExpanded] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -131,20 +147,6 @@ export default function Site() {
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut",
-      });
-      gsap.utils.toArray<HTMLElement>(".value-card").forEach((el, i) => {
-        gsap.fromTo(
-          el,
-          { rotateY: -12, scale: 0.93 },
-          {
-            rotateY: 0,
-            scale: 1,
-            duration: 0.9,
-            delay: i * 0.08,
-            ease: "power2.out",
-            scrollTrigger: { trigger: el, start: "top 90%", once: true },
-          },
-        );
       });
       gsap.utils.toArray<HTMLElement>(".reveal").forEach((el) => {
         gsap.fromTo(
@@ -445,10 +447,24 @@ export default function Site() {
             <div className="sector-grid">
               {t.sectors.map((name, i) => {
                 const Icon = sectorIcons[i];
+
                 return (
                   <div className="sector-card reveal" key={i}>
-                    <Icon size={26} strokeWidth={1.5} />
-                    <span>{name}</span>
+                    <Image
+                      src={sectorImages[i]}
+                      alt=""
+                      fill
+                      sizes="(max-width: 520px) 50vw, (max-width: 800px) 33vw, 25vw"
+                      className="sector-photo"
+                    />
+
+                    <div className="sector-overlay" />
+
+                    <div className="sector-content">
+                      <Icon size={28} strokeWidth={1.6} />
+                      <span className="sector-name">{name}</span>
+                    </div>
+
                     <span className="sector-index">
                       {String(i + 1).padStart(2, "0")}
                     </span>
@@ -465,18 +481,52 @@ export default function Site() {
               <span className="eyebrow">{t.valuesLabel}</span>
             </div>
             <h2 className="section-title reveal">{t.valuesTitle}</h2>
-            <div className="values-grid">
+            <div
+              className={`values-constellation ${valuesExpanded ? "is-expanded" : ""}`}
+              onMouseEnter={(event) => {
+                if (
+                  event.currentTarget.matches(":hover") &&
+                  window.matchMedia("(hover: hover)").matches
+                )
+                  setValuesExpanded(true);
+              }}
+              onMouseLeave={() => {
+                if (window.matchMedia("(hover: hover)").matches)
+                  setValuesExpanded(false);
+              }}
+            >
+              <div className="values-halo" aria-hidden="true" />
               {t.values.map((name, i) => {
                 const Icon = valueIcons[i];
                 return (
-                  <div className="value-card reveal" key={i}>
-                    <Icon size={32} strokeWidth={1.5} />
-                    <span className="value-num">0{i + 1}</span>
-                    <h3>{name}</h3>
-                    <span className="value-glow" aria-hidden="true" />
+                  <div
+                    className={`constellation-position constellation-position-${i + 1}`}
+                    key={i}
+                  >
+                    <div className="constellation-float">
+                      <div className="constellation-card">
+                        <Icon size={28} strokeWidth={1.5} aria-hidden="true" />
+                        <span className="value-num">0{i + 1}</span>
+                        <h3>{name}</h3>
+                      </div>
+                    </div>
                   </div>
                 );
               })}
+              <button
+                type="button"
+                className="values-toggle"
+                aria-expanded={valuesExpanded}
+                onClick={() => setValuesExpanded((current) => !current)}
+              >
+                {valuesExpanded
+                  ? rtl
+                    ? "إغلاق"
+                    : "Regroup values"
+                  : rtl
+                    ? "اكتشف قيمنا"
+                    : "Explore our values"}
+              </button>
             </div>
           </div>
         </section>

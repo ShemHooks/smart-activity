@@ -24,11 +24,7 @@ import {
   Phone,
   Plane,
   School,
-  ShieldCheck,
   ShoppingBag,
-  Sparkles,
-  Target,
-  Users,
   Utensils,
   X,
   Zap,
@@ -58,7 +54,13 @@ const sectorIcons: LucideIcon[] = [
   Plane,
   School,
 ];
-const valueIcons: LucideIcon[] = [ShieldCheck, Sparkles, Target, Check, Users];
+const valueImages = [
+  "/images/values/trust.png",
+  "/images/values/innovation.png",
+  "/images/values/results.png",
+  "/images/values/quality.png",
+  "/images/values/collaboration.png",
+];
 const serviceNums = ["01", "02", "03", "04", "05"];
 const serviceVideos = [
   "/videos/services/recruitment.mp4",
@@ -444,31 +446,33 @@ export default function Site() {
               </h2>
               <p>{t.sectorsIntro}</p>
             </div>
-            <div className="industries-constellation">
+
+            <div className="industries-grid">
               {t.sectors.map((name, i) => {
                 const Icon = sectorIcons[i];
 
                 return (
-                  <div className="industry-floating-card" key={i}>
+                  <article className="industry-card reveal" key={i}>
                     <Image
                       src={sectorImages[i]}
-                      alt=""
+                      alt={name}
                       fill
-                      sizes="(max-width: 600px) 45vw, (max-width: 1000px) 30vw, 22vw"
-                      className="industry-floating-photo"
+                      sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 25vw"
+                      className="industry-card-photo"
                     />
 
-                    <div className="industry-floating-overlay" />
+                    <div className="industry-card-overlay" />
 
-                    <div className="industry-floating-content">
-                      <div className="industry-floating-top">
-                        <Icon size={27} strokeWidth={1.6} />
-                        <span>{String(i + 1).padStart(2, "0")}</span>
-                      </div>
-
-                      <h3>{name}</h3>
+                    <div className="industry-card-top">
+                      <Icon size={28} strokeWidth={1.7} />
+                      <span>{String(i + 1).padStart(2, "0")}</span>
                     </div>
-                  </div>
+
+                    <div className="industry-card-bottom">
+                      <h3>{name}</h3>
+                      <ArrowUpRight size={20} />
+                    </div>
+                  </article>
                 );
               })}
             </div>
@@ -479,54 +483,51 @@ export default function Site() {
           <div className="container">
             <div className="section-top reveal">
               <span className="eyebrow">{t.valuesLabel}</span>
+              <span className="section-marker">OUR FOUNDATION / 05</span>
             </div>
-            <h2 className="section-title reveal">{t.valuesTitle}</h2>
-            <div
-              className={`values-constellation ${valuesExpanded ? "is-expanded" : ""}`}
-              onMouseEnter={(event) => {
-                if (
-                  event.currentTarget.matches(":hover") &&
-                  window.matchMedia("(hover: hover)").matches
-                )
-                  setValuesExpanded(true);
-              }}
-              onMouseLeave={() => {
-                if (window.matchMedia("(hover: hover)").matches)
-                  setValuesExpanded(false);
-              }}
-            >
-              <div className="values-halo" aria-hidden="true" />
+
+            <div className="values-heading reveal">
+              <h2 className="section-title">{t.valuesTitle}</h2>
+              <p>
+                The principles that shape our decisions, strengthen our
+                partnerships, and drive everything we do.
+              </p>
+            </div>
+
+            <div className="values-premium-grid">
               {t.values.map((name, i) => {
-                const Icon = valueIcons[i];
+                const images = [
+                  "/images/values/trust.png",
+                  "/images/values/innovation.png",
+                  "/images/values/results.png",
+                  "/images/values/quality.png",
+                  "/images/values/collaboration.png",
+                ];
+
                 return (
-                  <div
-                    className={`constellation-position constellation-position-${i + 1}`}
-                    key={i}
-                  >
-                    <div className="constellation-float">
-                      <div className="constellation-card">
-                        <Icon size={28} strokeWidth={1.5} aria-hidden="true" />
-                        <span className="value-num">0{i + 1}</span>
-                        <h3>{name}</h3>
-                      </div>
+                  <article className="values-premium-card reveal" key={i}>
+                    <div className="values-premium-top">
+                      <span>0{i + 1}</span>
+                      <span className="values-premium-symbol">✦</span>
                     </div>
-                  </div>
+
+                    <div className="values-premium-art">
+                      <Image
+                        src={images[i]}
+                        alt={name}
+                        width={320}
+                        height={240}
+                        className="values-premium-image"
+                      />
+                    </div>
+
+                    <div className="values-premium-bottom">
+                      <h3>{name}</h3>
+                      <div className="values-premium-line" />
+                    </div>
+                  </article>
                 );
               })}
-              <button
-                type="button"
-                className="values-toggle"
-                aria-expanded={valuesExpanded}
-                onClick={() => setValuesExpanded((current) => !current)}
-              >
-                {valuesExpanded
-                  ? rtl
-                    ? "إغلاق"
-                    : "Regroup values"
-                  : rtl
-                    ? "اكتشف قيمنا"
-                    : "Explore our values"}
-              </button>
             </div>
           </div>
         </section>

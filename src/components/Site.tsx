@@ -85,6 +85,14 @@ const sectorImages = [
   "/images/industries/schools.jpg",
 ];
 
+const valueVideos = [
+  "/videos/values/trust.mp4",
+  "/videos/values/innovation.mp4",
+  "/videos/values/results.mp4",
+  "/videos/values/quality.mp4",
+  "/videos/values/collaboration.mp4",
+];
+
 export default function Site() {
   const [locale, setLocale] = useState<Locale>("en");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -183,6 +191,35 @@ export default function Site() {
     const body = `Name: ${form.name}\nEmail: ${form.email}\nService: ${form.service || t.allServices}\n\n${form.message}`;
     window.location.href = `mailto:customersupport@smartactivity.net?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   }
+
+  useEffect(() => {
+    const videos = document.querySelectorAll<HTMLVideoElement>(
+      ".values-premium-video",
+    );
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const video = entry.target as HTMLVideoElement;
+
+          if (entry.isIntersecting) {
+            if (
+              !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            ) {
+              void video.play().catch(() => {});
+            }
+          } else {
+            video.pause();
+          }
+        });
+      },
+      { threshold: 0.2 },
+    );
+
+    videos.forEach((video) => observer.observe(video));
+
+    return () => observer.disconnect();
+  }, [locale]);
 
   return (
     <div ref={rootRef} className="site" dir={rtl ? "rtl" : "ltr"}>
@@ -494,40 +531,35 @@ export default function Site() {
               </p>
             </div>
 
-            <div className="values-premium-grid">
-              {t.values.map((name, i) => {
-                const images = [
-                  "/images/values/trust.png",
-                  "/images/values/innovation.png",
-                  "/images/values/results.png",
-                  "/images/values/quality.png",
-                  "/images/values/collaboration.png",
-                ];
+            <div className="values-cinematic-grid">
+              {t.values.map((name, i) => (
+                <article className="value-cinematic-card reveal" key={i}>
+                  <video
+                    className="value-cinematic-video values-premium-video"
+                    src={valueVideos[i]}
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    aria-label={name}
+                  />
 
-                return (
-                  <article className="values-premium-card reveal" key={i}>
-                    <div className="values-premium-top">
-                      <span>0{i + 1}</span>
-                      <span className="values-premium-symbol">✦</span>
-                    </div>
+                  <div className="value-cinematic-overlay" />
 
-                    <div className="values-premium-art">
-                      <Image
-                        src={images[i]}
-                        alt={name}
-                        width={320}
-                        height={240}
-                        className="values-premium-image"
-                      />
-                    </div>
+                  <div className="value-cinematic-top">
+                    <span>SMART ACTIVITY / 0{i + 1}</span>
+                    <span className="value-cinematic-star">✦</span>
+                  </div>
 
-                    <div className="values-premium-bottom">
-                      <h3>{name}</h3>
-                      <div className="values-premium-line" />
-                    </div>
-                  </article>
-                );
-              })}
+                  <div className="value-cinematic-bottom">
+                    <span className="value-cinematic-label">
+                      OUR CORE VALUES
+                    </span>
+                    <h3>{name}</h3>
+                    <div className="value-cinematic-accent" />
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
         </section>

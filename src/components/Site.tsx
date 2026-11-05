@@ -96,8 +96,8 @@ const valueVideos = [
 
 const heroVideos = [
   "/videos/riyadh-corporate-hero.mp4",
-  "/videos/hero-business.mp4",
   "/videos/hero-technology.mp4",
+  "/videos/hero-business.mp4",
 ];
 
 export default function Site() {

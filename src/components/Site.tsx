@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import HeroVideoBackground from "@/components/HeroVideoBackground";
 import {
   ArrowDown,
   ArrowLeft,
@@ -91,6 +92,12 @@ const valueVideos = [
   "/videos/values/results.mp4",
   "/videos/values/quality.mp4",
   "/videos/values/collaboration.mp4",
+];
+
+const heroVideos = [
+  "/videos/riyadh-corporate-hero.mp4",
+  "/videos/hero-business.mp4",
+  "/videos/hero-technology.mp4",
 ];
 
 export default function Site() {
@@ -287,18 +294,7 @@ export default function Site() {
 
       <main>
         <section className="hero" id="home">
-          <video
-            className="hero-video"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            aria-hidden="true"
-            poster="/images/riyadh-hero-poster.jpg"
-          >
-            <source src="/videos/riyadh-corporate-hero.mp4" type="video/mp4" />
-          </video>
+          <HeroVideoBackground videos={heroVideos} />
           <div className="hero-video-shade" aria-hidden="true" />
           <div className="hero-grid" aria-hidden="true" />
           <div className="hero-art" aria-hidden="true">
